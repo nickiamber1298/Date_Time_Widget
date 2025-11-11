@@ -2,65 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Date & Time Widget</title>
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background-color: #fef6fb;
-      font-family: "Segoe UI", Roboto, sans-serif;
-      color: #444;
+      justify-content: center;
+      background: #e7f1ff; /* light blue background */
+      color: #1e3a8a; /* deep blue text */
     }
 
-    .clock-container {
-      background: white;
+    .card {
+      background: #ffffff;
       border-radius: 16px;
-      padding: 30px 40px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 28px 36px;
       text-align: center;
+      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.15);
+      border: 2px solid #bfdbfe; /* soft border */
     }
 
     .title {
-      font-size: 1.2em;
       font-weight: 600;
-      color: #d63384;
-      margin-bottom: 10px;
+      color: #2563eb; /* main accent blue */
+      margin-bottom: 8px;
+      font-size: 1.1rem;
     }
 
     .time {
-      font-size: 2.4em;
-      font-weight: bold;
-      color: #333;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #1e40af; /* darker blue for time */
+      letter-spacing: 0.02em;
     }
 
     .date {
-      font-size: 1.1em;
-      color: #777;
       margin-top: 6px;
+      color: #3b82f6;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <div class="clock-container">
-    <div class="title">Current Date & Time</div>
-    <div class="time" id="time">--:--:--</div>
-    <div class="date" id="date">Loading...</div>
+  <div class="card" role="group" aria-label="Current date and time">
+    <div class="title">Current Date &amp; Time</div>
+    <div id="time" class="time">--:--:--</div>
+    <div id="date" class="date">Loading…</div>
   </div>
 
   <script>
-    function updateClock() {
+    function tick() {
       const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const date = now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      document.getElementById('time').textContent = time;
-      document.getElementById('date').textContent = date;
+      document.getElementById('time').textContent =
+        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+      document.getElementById('date').textContent =
+        now.toLocaleDateString([], {weekday:'long', year:'numeric', month:'long', day:'numeric'});
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+    tick();
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>
+
