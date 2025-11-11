@@ -4,44 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Date & Time Widget</title>
-  <link rel="preload" as="image" href="background.png?v=2">
   <style>
+    /* Full-screen background image */
     html, body {
       height: 100%;
       margin: 0;
+    }
+    body {
+      display: grid;
+      place-items: center;           /* perfectly center the card */
+      background: url("background.png") center / cover no-repeat;  /* <- local dev */
+      /* For GitHub Pages, swap to your raw URL instead:
+         background: url("https://raw.githubusercontent.com/nickiamber1298/Date_Time_Widget/main/background.png") center / cover no-repeat; */
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1e3a8a; /* keep your blue text */
-      background: #0b0b0b; /* fallback while image loads */
-      position: relative;
-      overflow: hidden;
+      color: #1e3a8a;
     }
 
-    /* Full-bleed background layer */
-    body::before {
+    /* Optional: gentle dark veil for readability (tweak 0.0–0.2 or remove) */
+    body::after {
       content: "";
-      position: fixed;
-      inset: 0;
-      background: url("https://raw.githubusercontent.com/nickiamber1298/Date_Time_Widget/main/background.png") center / cover no-repeat;
-      z-index: -1;
-      /* remove filters to avoid dark screens; add this later if you want:
-         filter: brightness(0.9); */
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.08);
+      pointer-events: none;
     }
 
-  .card {
-    background: #ffffff;            /* fully opaque */
-    border-radius: 16px;
-    padding: 28px 36px;
-    text-align: center;
-    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.2);
-    border: 2px solid #bfdbfe;
-  }
+    /* Small floating card (NOT full height) */
+    .card {
+      position: relative;
+      z-index: 1;                    /* above the veil */
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px 28px;
+      width: fit-content;
+      max-width: 90vw;               /* responsive on small screens */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      border: 2px solid #bfdbfe;
+      text-align: center;
+    }
 
-    .title { font-weight: 600; color: #2563eb; margin-bottom: 8px; font-size: 1.1rem; }
-    .time { font-size: 2.6rem; font-weight: 700; color: #1e40af; letter-spacing: .02em; }
-    .date { margin-top: 6px; color: #3b82f6; font-size: 1rem; }
+    .title { font-weight: 600; color: #2563eb; margin-bottom: 8px; font-size: 1.05rem; }
+    .time  { font-size: 2.4rem; font-weight: 700; color: #1e40af; letter-spacing: .02em; }
+    .date  { margin-top: 6px; color: #3b82f6; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -50,15 +53,17 @@
     <div id="time" class="time">--:--:--</div>
     <div id="date" class="date">Loading…</div>
   </div>
+
   <script>
     function tick() {
       const now = new Date();
       document.getElementById('time').textContent =
-        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('date').textContent =
-        now.toLocaleDateString([], {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+        now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
-    tick(); setInterval(tick, 1000);
+    tick();
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>
