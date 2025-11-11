@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Date & Time Widget</title>
+  <link rel="preload" as="image" href="background.png?v=2">
   <style>
     html, body {
       height: 100%;
@@ -12,39 +13,34 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #1e3a8a; /* deep blue text */
-      background: url("background.png") no-repeat center center fixed;
-      background-size: cover;
+      color: #1e3a8a; /* keep your blue text */
+      background: #0b0b0b; /* fallback while image loads */
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Full-bleed background layer */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("background.png?v=2") center / cover no-repeat; /* <- your image */
+      z-index: -1;
+      /* remove filters to avoid dark screens; add this later if you want:
+         filter: brightness(0.9); */
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       border-radius: 16px;
       padding: 28px 36px;
       text-align: center;
       box-shadow: 0 8px 24px rgba(30, 64, 175, 0.2);
       border: 2px solid #bfdbfe;
     }
-
-    .title {
-      font-weight: 600;
-      color: #2563eb; /* main accent blue */
-      margin-bottom: 8px;
-      font-size: 1.1rem;
-    }
-
-    .time {
-      font-size: 2.6rem;
-      font-weight: 700;
-      color: #1e40af;
-      letter-spacing: 0.02em;
-    }
-
-    .date {
-      margin-top: 6px;
-      color: #3b82f6;
-      font-size: 1rem;
-    }
+    .title { font-weight: 600; color: #2563eb; margin-bottom: 8px; font-size: 1.1rem; }
+    .time { font-size: 2.6rem; font-weight: 700; color: #1e40af; letter-spacing: .02em; }
+    .date { margin-top: 6px; color: #3b82f6; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -53,7 +49,6 @@
     <div id="time" class="time">--:--:--</div>
     <div id="date" class="date">Loading…</div>
   </div>
-
   <script>
     function tick() {
       const now = new Date();
@@ -62,9 +57,7 @@
       document.getElementById('date').textContent =
         now.toLocaleDateString([], {weekday:'long', year:'numeric', month:'long', day:'numeric'});
     }
-    tick();
-    setInterval(tick, 1000);
+    tick(); setInterval(tick, 1000);
   </script>
 </body>
 </html>
-
